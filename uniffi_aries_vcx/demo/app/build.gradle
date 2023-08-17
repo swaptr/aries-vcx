@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace 'org.hyperledger.ariesvcx'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "org.hyperledger.ariesvcx"
@@ -65,6 +65,14 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
+    // Material UI
+    def compose_version = "1.1.1"
+    implementation "androidx.compose.material:material:$compose_version"
+
     // JNA
     implementation "net.java.dev.jna:jna:5.13.0@aar"
+
+    // Navigation
+    def nav_version = "2.7.0"
+    implementation "androidx.navigation:navigation-compose:$nav_version"
 }
