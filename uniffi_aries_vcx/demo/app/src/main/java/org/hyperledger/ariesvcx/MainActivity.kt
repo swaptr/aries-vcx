@@ -1,6 +1,5 @@
 package org.hyperledger.ariesvcx
 
-import android.R
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,11 +7,15 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Button
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -46,9 +49,21 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 Scaffold(
                     topBar = {
-                        TopAppBar(title = {
-                            Text("Demo")
-                        })
+                        TopAppBar(
+                            title = {
+                                Text("Demo")
+                            },
+                            navigationIcon = {
+                                if (navController.previousBackStackEntry != null) {
+                                    IconButton(onClick = { navController.navigateUp() }) {
+                                        Icon(
+                                            imageVector = Icons.Default.ArrowBack,
+                                            contentDescription = "Back"
+                                        )
+                                    }
+                                }
+                            }
+                        )
                     },
                     bottomBar = {
                         BottomNavigationBar(
@@ -82,7 +97,10 @@ class MainActivity : ComponentActivity() {
 fun Navigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "connect") {
         composable("connect") {
-            ConnectScreen()
+            ConnectScreen(navController)
+        }
+        composable("scan") {
+            ScanScreen()
         }
         composable("settings") {
             SettingsScreen()
@@ -141,12 +159,33 @@ fun BottomNavigationBar(
 }
 
 @Composable
-fun ConnectScreen() {
+fun ConnectScreen(navController: NavHostController) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "Connect")
+        Column {
+            Button(
+                onClick = { navController. },
+                shape = RoundedCornerShape(100.dp)
+            ) {
+                Text(
+                    text = "Scan a QR Code"
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun ScanScreen() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Column {
+            Text(text = "QR Code Scanner")
+        }
     }
 }
 
